@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://xeno-backend-production.up.railway.app/api/:path*"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "http://localhost:4000"
+  }
+}

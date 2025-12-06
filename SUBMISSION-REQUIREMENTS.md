@@ -24,7 +24,7 @@ git branch -M main
 git push -u origin main
 ```
 
-**Repository URL to submit:** `https://github.com/YOUR_USERNAME/xeno-shopify-insights`
+**Repository URL to submit:** `https://github.com/KRIPAVERMA/xeno-shopify-insights`
 
 ---
 
