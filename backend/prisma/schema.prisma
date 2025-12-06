@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  shopifyShop String?
+  apiKey    String   @unique
+  createdAt DateTime @default(now())
+  customers Customer[]
+  products  Product[]
+  orders    Order[]
+  events    Event[]
+  users     User[]
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  shopifyId String   @unique
+  email     String?
+  firstName String?
+  lastName  String?
+  orders    Order[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  shopifyId String
+  title     String
+  sku       String?
+  price     Float?
+}
+
+model Order {
+  id         String   @id @default(uuid())
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId   String
+  shopifyId  String   @unique
+  totalPrice Float
+  currency   String
+  createdAt  DateTime
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  type      String
+  payload   String
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id        String   @id @default(uuid())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  email     String
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  @@unique([tenantId, email])
+}
